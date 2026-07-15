@@ -1,0 +1,24 @@
+<!--
+Copyright (C) 2026 SharpEmu Emulator Project
+SPDX-License-Identifier: GPL-2.0-or-later
+-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Metal (MSL) codegen for Gen5 shaders — experimental spike. Consumes the same
+       (Gen5ShaderState, Gen5ShaderEvaluation) contract as the SPIR-V translator and
+       emits Metal Shading Language source. Deliberately isolated: nothing in the
+       emulator references this project yet. -->
+  <PropertyGroup>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpEmu.Libs\SharpEmu.Libs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SharpEmu.ShaderCompiler.Metal.Tests" />
+  </ItemGroup>
+
+</Project>
