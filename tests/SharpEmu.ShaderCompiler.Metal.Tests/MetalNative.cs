@@ -55,6 +55,9 @@ internal static partial class MetalNative
     private static partial void SendVoid(nint receiver, nint selector, nint argument);
 
     [LibraryImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    private static partial void SendVoidBool(nint receiver, nint selector, [MarshalAs(UnmanagedType.I1)] bool argument);
+
+    [LibraryImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
     private static partial void SendSetBuffer(nint receiver, nint selector, nint buffer, nuint offset, nuint index);
 
     [LibraryImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
@@ -97,12 +100,18 @@ internal static partial class MetalNative
     {
         library = 0;
         error = string.Empty;
+
+        // Metal defaults to fast-math; GCN float semantics do not survive it, so the
+        // harness compiles the way a real Metal backend must: fast-math off.
+        var options = Send(Send(objc_getClass("MTLCompileOptions"), Selector("alloc")), Selector("init"));
+        SendVoidBool(options, Selector("setFastMathEnabled:"), false);
+
         nint nsError = 0;
         library = Send(
             Device.Value,
             Selector("newLibraryWithSource:options:error:"),
             NsString(source),
-            0,
+            options,
             ref nsError);
         if (library == 0)
         {
