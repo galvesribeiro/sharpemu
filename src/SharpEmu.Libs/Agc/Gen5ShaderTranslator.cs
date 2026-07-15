@@ -276,7 +276,9 @@ internal static class Gen5ShaderTranslator
         return true;
     }
 
-    private static bool TryDecodeProgram(
+    // Internal (not private) so isolated shader-compiler test projects can drive the
+    // real decoder from raw instruction words, the same way the ShaderDump tool does.
+    internal static bool TryDecodeProgram(
         CpuContext ctx,
         ulong address,
         out Gen5ShaderProgram program,

@@ -10,6 +10,11 @@ SPDX-License-Identifier: GPL-2.0-or-later
 
   <ItemGroup>
     <InternalsVisibleTo Include="SharpEmu.Libs.Tests" />
+    <!-- TEMPORARY: simplifies the isolated Metal shader-compiler experiment. The Gen5
+         shader IR types these grants expose will be lifted into a shared shader-compiler
+         project once codegen is split per backend; these entries go away with that. -->
+    <InternalsVisibleTo Include="SharpEmu.ShaderCompiler.Metal" />
+    <InternalsVisibleTo Include="SharpEmu.ShaderCompiler.Metal.Tests" />
   </ItemGroup>
 
   <ItemGroup>
